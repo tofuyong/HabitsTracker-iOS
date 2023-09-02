@@ -12,7 +12,6 @@ struct Habit: Identifiable, Codable {
     var name: String
     var description: String
     var count: Int
-
 }
 
 class Habits: ObservableObject {
@@ -31,7 +30,6 @@ class Habits: ObservableObject {
                 return
             }
         }
-        
         habits = [] // otherwise, set habits to an empty array
     }
 }
@@ -58,6 +56,7 @@ struct ContentView: View {
                         }
                     }
                 }
+                .onDelete(perform: removeHabit)
             }
             .navigationTitle("Habits Tracker")
             .toolbar {
@@ -77,6 +76,10 @@ struct ContentView: View {
         if let index = habitList.habits.firstIndex(where: { $0.id == habit.id }) {
             habitList.habits[index].count += 1
         }
+    }
+    
+    func removeHabit(at offsets: IndexSet) {
+        habitList.habits.remove(atOffsets: offsets)
     }
 }
 

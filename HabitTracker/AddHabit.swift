@@ -24,13 +24,28 @@ struct AddHabit: View {
             }
             .navigationTitle("Add Habit")
             .toolbar {
-                Button("Save") {
-                    let habit = Habit(name: name, description: description, count: count)
-                    habits.habits.append(habit)
-                    dismiss()
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
+                }
+                
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Save") {
+                        let habit = Habit(name: name, description: description, count: count)
+                        habits.habits.append(habit)
+                        dismiss()
+                    }.disabled(isValidHabit == false)
                 }
             }
         }
+    }
+    
+    var isValidHabit: Bool {
+        if name.trimmingCharacters(in: .whitespaces).isEmpty || description.trimmingCharacters(in: .whitespaces).isEmpty {
+            return false
+        }
+        return true
     }
 }
 
